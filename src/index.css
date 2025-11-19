@@ -1,0 +1,120 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+
+    --card: 240 10% 6%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 240 10% 6%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 263 70% 50%;
+    --primary-foreground: 0 0% 100%;
+    
+    --primary-glow: 280 80% 60%;
+    --accent-cyan: 189 94% 43%;
+    --accent-purple: 263 70% 50%;
+
+    --secondary: 240 5% 15%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 240 5% 15%;
+    --muted-foreground: 240 5% 65%;
+
+    --accent: 189 94% 43%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 240 5% 15%;
+    --input: 240 5% 15%;
+    --ring: 263 70% 50%;
+
+    --radius: 1rem;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(263 70% 50%), hsl(189 94% 43%));
+    --gradient-hero: linear-gradient(135deg, hsl(263 70% 50% / 0.2), hsl(189 94% 43% / 0.2));
+    --gradient-glow: radial-gradient(circle at center, hsl(263 70% 50% / 0.3) 0%, transparent 70%);
+    
+    /* Shadows */
+    --shadow-glow: 0 0 60px hsl(263 70% 50% / 0.4);
+    --shadow-cyan: 0 0 40px hsl(189 94% 43% / 0.3);
+    --shadow-card: 0 20px 60px hsl(0 0% 0% / 0.5);
+    
+    /* Animations */
+    --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground overflow-x-hidden;
+    font-family: 'Inter', sans-serif;
+    cursor: none;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Space Grotesk', sans-serif;
+  }
+  
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--background));
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, hsl(var(--primary)), hsl(var(--accent)));
+    border-radius: 5px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--primary));
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary via-primary-glow to-accent bg-clip-text text-transparent;
+  }
+  
+  .glass-card {
+    @apply bg-card/30 backdrop-blur-xl border border-border/50;
+  }
+  
+  .glow-effect {
+    box-shadow: var(--shadow-glow);
+  }
+  
+  .hover-lift {
+    @apply transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl;
+  }
+  
+  .perspective-\[2000px\] {
+    perspective: 2000px;
+  }
+
+  .backface-hidden {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+}
