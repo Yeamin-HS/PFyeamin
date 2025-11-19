@@ -3,6 +3,11 @@ import { motion, PanInfo, useMotionValue } from "framer-motion";
 import { MoveHorizontal, ExternalLink, Github } from "lucide-react";
 import { Button } from "./ui/button";
 
+// ✅ Import your thumbnails
+import medihelpthumb from "./assets/medihelpthumb.png";
+import ocabracu from "./assets/ocabracu.png";
+import desmosgraphthumb from "./assets/desmos-graph.png";
+
 interface Project {
   id: number;
   title: string;
@@ -19,64 +24,35 @@ const Projects = () => {
   const [isDragging, setIsDragging] = useState(false);
   const dragX = useMotionValue(0);
 
+  
   const projects: Project[] = [
     {
       id: 1,
-      title: "AI-Powered Analytics Platform",
-      thumbnail: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+      title: "AI-Powered Medicine Help Platform",
+      thumbnail: medihelpthumb,
       description:
-        "A full-stack analytics platform leveraging machine learning for real-time predictive insights. Features include data visualization, automated reporting, and custom ML model training with TensorFlow.",
-      tags: ["Python", "TensorFlow", "React", "FastAPI"],
-      demoLink: "#",
+        "• Integrated Gemini 1.5 and a custom NLP model to create an AI chatbot that predicts diseases based on user symptoms, offering intelligent, real-time health insights. • Users can locate nearby 24/7 pharmacies, check medicine availability, and receive emergency support with GPSbased search and area-wise filtering. • Designed a full-stack system with RBAC for Admins, Pharmacists, Doctors, and Users—featuring online prescriptions, health history tracking, medicine requests, and follow-up reminders.Enabled home delivery with payment, real-time order tracking, feedback/rating features, and a personalized dashboard experience across all roles",
+      tags: ["Node.js", "TensorFlow.js", "React", "Express.js"],
+      demoLink: "https://medi-help-react.vercel.app/",
       githubLink: "#",
     },
     {
       id: 2,
-      title: "Neural Network Visualizer",
-      thumbnail: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
+      title: "Club Management & Recruitment System",
+      thumbnail: ocabracu,
       description:
-        "An interactive educational tool for building, training, and visualizing neural networks in real-time. Includes layer-by-layer inspection, performance metrics, and 3D architecture visualization.",
-      tags: ["PyTorch", "Three.js", "WebGL", "TypeScript"],
+        "Custom authentication with multi-role access (Admin, Club, OCA), ensuring precise control over functionalities and data visibility. • Real-time room availability, conflict-free scheduling, and dynamic booking management — optimized for campus clubs and events. • Unified platform to manage event creation, scheduling, and digital notice circulation — reducing overhead and boosting engagement. • Built a personalized dashboard which is clean, user-focused and providing instant access to bookings, events, and actionable updates for every user role.",
+      tags: ["desmos"],
       demoLink: "#",
       githubLink: "#",
     },
     {
       id: 3,
-      title: "Smart Automation System",
-      thumbnail: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
+      title: "DESMOS Graphing Designing",
+      thumbnail: desmosgraphthumb,
       description:
-        "Cloud-native automation platform using NLP to understand and execute complex workflows. Supports multi-step processes and integrations with 50+ popular services.",
-      tags: ["NLP", "Python", "Docker", "Kubernetes"],
-      demoLink: "#",
-      githubLink: "#",
-    },
-    {
-      id: 4,
-      title: "Real-time Sentiment Analyzer",
-      thumbnail: "linear-gradient(135deg, #fa709a 0%, #fee140 100%)",
-      description:
-        "Real-time sentiment analysis engine processing thousands of social media posts per second. Uses state-of-the-art transformer models (BERT) for accurate emotion detection.",
-      tags: ["BERT", "React", "Node.js", "MongoDB"],
-      demoLink: "#",
-      githubLink: "#",
-    },
-    {
-      id: 5,
-      title: "Predictive Maintenance AI",
-      thumbnail: "linear-gradient(135deg, #30cfd0 0%, #330867 100%)",
-      description:
-        "Industrial IoT solution that predicts equipment failures before they happen. Reduces downtime by 60% through proactive maintenance scheduling and anomaly detection.",
-      tags: ["Scikit-learn", "PostgreSQL", "Flask", "AWS"],
-      demoLink: "#",
-      githubLink: "#",
-    },
-    {
-      id: 6,
-      title: "Computer Vision Mobile App",
-      thumbnail: "linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)",
-      description:
-        "Cross-platform mobile app for real-time object detection and classification. Optimized for on-device inference with 30+ FPS performance using TensorFlow Lite.",
-      tags: ["OpenCV", "TensorFlow Lite", "React Native", "Flutter"],
+        "A little approcah to draw my club icon with several mathmatical functions using DESMOS graphing calculator. • Used functions like parabolas, circles, ellipses, and lines to create the shapes and curves needed for the design.",
+      tags: ["Node.js", "Express.js", "Tailwind", "React"],
       demoLink: "#",
       githubLink: "#",
     },
@@ -88,26 +64,19 @@ const Projects = () => {
   const handlePrev = () =>
     setCurrentIndex((prev) => (prev - 1 + projects.length) % projects.length);
 
-  // Framer drag end (mouse/touch drag)
   const handleDragEnd = (_: any, info: PanInfo) => {
     setIsDragging(false);
 
-    const threshold = 100; // px
-    // Only react to horizontal offset (ignore vertical)
+    const threshold = 100;
     if (Math.abs(info.offset.x) > Math.abs(info.offset.y)) {
-      if (info.offset.x > threshold) {
-        handlePrev();
-      } else if (info.offset.x < -threshold) {
-        handleNext();
-      }
+      if (info.offset.x > threshold) handlePrev();
+      else if (info.offset.x < -threshold) handleNext();
     }
-    // reset motion value to avoid stray translations
+
     dragX.set(0);
   };
 
-  // -------------------
-  // TOUCH HANDLERS (mobile) - horizontal only
-  // -------------------
+  // TOUCH
   const touchStart = useRef<{ x: number; y: number } | null>(null);
   const touchEnd = useRef<{ x: number; y: number } | null>(null);
 
@@ -123,99 +92,68 @@ const Projects = () => {
   };
 
   const handleTouchEnd = () => {
-    if (!touchStart.current || !touchEnd.current) {
-      touchStart.current = null;
-      touchEnd.current = null;
-      return;
-    }
+    if (!touchStart.current || !touchEnd.current) return;
 
     const dx = touchStart.current.x - touchEnd.current.x;
     const dy = touchStart.current.y - touchEnd.current.y;
 
-    // require horizontal dominant and minimum distance
     if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 75) {
-      if (dx > 0) handleNext();
-      else handlePrev();
+      dx > 0 ? handleNext() : handlePrev();
     }
 
     touchStart.current = null;
     touchEnd.current = null;
   };
 
-  // -------------------
-  // POINTER HANDLERS (mouse/pen) - horizontal only
-  // -------------------
+  // POINTER
   const pointerStart = useRef<{ x: number; y: number } | null>(null);
   const pointerActive = useRef(false);
 
   const handlePointerDown = (e: React.PointerEvent) => {
-    // only primary button or touch/pen
     if (e.pointerType === "mouse" && e.button !== 0) return;
     pointerActive.current = true;
     pointerStart.current = { x: e.clientX, y: e.clientY };
     (e.target as Element).setPointerCapture?.(e.pointerId);
   };
 
-  const handlePointerMove = (_e: React.PointerEvent) => {
-    // we do not act continuously here; use up to decide
-  };
+  const handlePointerMove = () => {};
 
   const handlePointerUp = (e: React.PointerEvent) => {
-    if (!pointerActive.current || !pointerStart.current) {
-      pointerActive.current = false;
-      pointerStart.current = null;
-      return;
-    }
+    if (!pointerActive.current || !pointerStart.current) return;
 
     const dx = pointerStart.current.x - e.clientX;
     const dy = pointerStart.current.y - e.clientY;
 
-    // horizontal dominant & threshold
     if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 50) {
-      if (dx > 0) handleNext();
-      else handlePrev();
+      dx > 0 ? handleNext() : handlePrev();
     }
 
     pointerActive.current = false;
     pointerStart.current = null;
+
     try {
       (e.target as Element).releasePointerCapture?.(e.pointerId);
     } catch {}
   };
 
-  // -------------------
-  // WHEEL HANDLER (touchpad two-finger) - horizontal only
-  // -------------------
+  // WHEEL
   const wheelAccum = useRef(0);
   const wheelTimer = useRef<number | null>(null);
 
   const handleWheel = (e: React.WheelEvent) => {
-    // If vertical dominates, ignore entirely (so page scroll works)
     if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) return;
 
-    // accumulate horizontal deltas (some devices emit small deltas)
     wheelAccum.current += e.deltaX;
+    const trigger = 150;
 
-    const trigger = 150; // tune: bigger -> less sensitive
     if (Math.abs(wheelAccum.current) > trigger) {
-      if (wheelAccum.current > 0) {
-        // positive deltaX -> user scrolled rightwards -> show next (content moves left)
-        handleNext();
-      } else {
-        handlePrev();
-      }
+      wheelAccum.current > 0 ? handleNext() : handlePrev();
       wheelAccum.current = 0;
-      if (wheelTimer.current) {
-        window.clearTimeout(wheelTimer.current);
-        wheelTimer.current = null;
-      }
-    } else {
-      // reset accumulator after short idle so small accidental scrolls don't accumulate forever
       if (wheelTimer.current) window.clearTimeout(wheelTimer.current);
-      // @ts-ignore window.setTimeout returns number in browser
+    } else {
+      if (wheelTimer.current) window.clearTimeout(wheelTimer.current);
       wheelTimer.current = window.setTimeout(() => {
         wheelAccum.current = 0;
-        wheelTimer.current = null;
       }, 120);
     }
   };
@@ -226,49 +164,38 @@ const Projects = () => {
     };
   }, []);
 
-  // -------------------
   // KEYBOARD NAV
-  // -------------------
-  const containerRef = useRef<HTMLDivElement | null>(null);
-
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      if (e.key === "ArrowLeft") {
-        handlePrev();
-      } else if (e.key === "ArrowRight") {
-        handleNext();
-      }
+      if (e.key === "ArrowLeft") handlePrev();
+      if (e.key === "ArrowRight") handleNext();
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
   }, []);
 
-  // -------------------
-  // Flip card
-  // -------------------
+  // flip
   const toggleFlip = (id: number) => {
     if (isDragging) return;
     setFlippedCards((prev) => {
       const s = new Set(prev);
-      if (s.has(id)) s.delete(id);
-      else s.add(id);
+      s.has(id) ? s.delete(id) : s.add(id);
       return s;
     });
   };
 
-  // -------------------
-  // Card positioning
-  // -------------------
+  // card style
   const getCardStyle = (index: number) => {
-    // we want circular indexing so carousel loops naturally
     const diffRaw = index - currentIndex;
     let diff = diffRaw;
     const half = Math.floor(projects.length / 2);
+
     if (diffRaw > half) diff = diffRaw - projects.length;
     if (diffRaw < -half) diff = diffRaw + projects.length;
 
     const absDiff = Math.abs(diff);
     const isCenter = diff === 0;
+
     const angle = diff * 25;
     const translateX = diff * 280;
     const translateZ = isCenter ? 100 : -100 - absDiff * 50;
@@ -278,7 +205,7 @@ const Projects = () => {
     return {
       transform: `rotateY(${angle}deg) translateX(${translateX}px) translateZ(${translateZ}px) scale(${scale})`,
       opacity,
-      zIndex: isCenter ? 20 : Math.max(0, 10 - absDiff),
+      zIndex: isCenter ? 20 : 10 - absDiff,
       filter: isCenter ? "blur(0px)" : `blur(${absDiff * 2}px)`,
     } as React.CSSProperties;
   };
@@ -318,21 +245,11 @@ const Projects = () => {
           <MoveHorizontal className="w-5 h-5 animate-pulse" />
         </motion.div>
 
-        {/* WRAPPER: capture wheel on wrapper if you want (we already listen on inner container) */}
-        <div
-          ref={containerRef}
-          // make container focusable for accessibility if needed
-          tabIndex={-1}
-          className="relative"
-        >
-          {/* 3D Carousel Container */}
+        <div className="relative">
           <motion.div
-            // important styles: touchAction pan-x ensures vertical touches don't trigger horizontal gestures here
             style={{
               x: dragX,
-              touchAction: "pan-x", // allow horizontal touch gestures only for this element
-              WebkitTouchCallout: "none",
-              WebkitUserSelect: "none",
+              touchAction: "pan-x",
               userSelect: "none",
             }}
             className="relative h-[600px] flex items-center justify-center select-none"
@@ -343,16 +260,13 @@ const Projects = () => {
             dragElastic={0.12}
             onDragStart={() => setIsDragging(true)}
             onDragEnd={handleDragEnd}
-            // pointer handlers to complement drag (and to ensure horizontal-only detection)
             onPointerDown={handlePointerDown}
             onPointerMove={handlePointerMove}
             onPointerUp={handlePointerUp}
             onPointerCancel={handlePointerUp}
-            // touch handlers
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
-            // wheel for touchpad horizontal swipes
             onWheel={handleWheel}
           >
             <div
@@ -368,20 +282,23 @@ const Projects = () => {
                     style={{
                       ...getCardStyle(index),
                       transformStyle: "preserve-3d",
-                      transition: "all 0.48s cubic-bezier(0.22, 1, 0.36, 1)",
+                      transition:
+                        "all 0.48s cubic-bezier(0.22, 1, 0.36, 1)",
                     }}
                     onClick={() => toggleFlip(project.id)}
                   >
-                    {/* Flip Card Container */}
                     <div
                       className="relative w-[400px] h-[500px]"
                       style={{
                         transformStyle: "preserve-3d",
-                        transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
-                        transition: "transform 0.72s cubic-bezier(0.22,1,0.36,1)",
+                        transform: isFlipped
+                          ? "rotateY(180deg)"
+                          : "rotateY(0deg)",
+                        transition:
+                          "transform 0.72s cubic-bezier(0.22,1,0.36,1)",
                       }}
                     >
-                      {/* Front */}
+                      {/* FRONT */}
                       <div
                         className="absolute inset-0 backface-hidden rounded-2xl overflow-hidden glass-card border-2 border-primary/20"
                         style={{
@@ -391,7 +308,11 @@ const Projects = () => {
                       >
                         <div
                           className="w-full h-2/3 relative"
-                          style={{ background: project.thumbnail }}
+                          style={{
+                            backgroundImage: `url(${project.thumbnail})`,
+                            backgroundSize: "cover",
+                            backgroundPosition: "center",
+                          }}
                         >
                           <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent" />
                           <div className="absolute bottom-4 left-4 right-4">
@@ -418,7 +339,7 @@ const Projects = () => {
                         </div>
                       </div>
 
-                      {/* Back */}
+                      {/* BACK */}
                       <div
                         className="absolute inset-0 backface-hidden rounded-2xl overflow-hidden glass-card border-2 border-accent/20 p-8"
                         style={{
