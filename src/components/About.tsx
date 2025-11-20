@@ -3,6 +3,8 @@ import { useInView } from 'framer-motion';
 import { useRef, useEffect, useState } from 'react';
 import { User } from 'lucide-react';
 
+import profileImg from './assets/profile.jpg';
+
 const About = () => {
   const ref = useRef(null);
   const sectionRef = useRef<HTMLElement>(null);
@@ -151,7 +153,7 @@ const About = () => {
   {/* <User className="absolute w-10 h-10 text-accent/40" strokeWidth={3} /> */}
   
   <img
-    src="/src/components/assets/IMG_9342.JPG"
+    src={profileImg}
     alt="Yeamin HS"
     className="w-full h-full object-contain object-center rounded-2xl"
   />
