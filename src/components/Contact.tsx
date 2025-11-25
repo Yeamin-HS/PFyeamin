@@ -5,9 +5,11 @@ import { Mail, MapPin, Phone, Send } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
+import { useToast } from './ui/use-toast';
 
 const Contact = () => {
   const ref = useRef(null);
+  const { toast } = useToast();
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   const contactInfo = [
@@ -35,7 +37,7 @@ const Contact = () => {
     <section id="contact" ref={ref} className="py-32 relative overflow-hidden">
       <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-primary/10 via-transparent to-accent/10" />
       <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[120px]" />
-      
+
       <div className="container mx-auto px-6 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -98,7 +100,7 @@ const Contact = () => {
                   style={{ border: 0 }}
                   allowFullScreen
                   loading="lazy"
-                  
+
                   referrerPolicy="no-referrer-when-downgrade"
                   className="rounded-xl"
                 />
@@ -112,13 +114,69 @@ const Contact = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="glass-card p-8 rounded-2xl"
           >
-            <form className="space-y-6">
+            <form className="space-y-6" onSubmit={async (e) => {
+              e.preventDefault();
+              console.log("Form submitted"); // Debug log
+              const form = e.target as HTMLFormElement;
+              const formData = new FormData(form);
+              const data = Object.fromEntries(formData.entries());
+              console.log("Form data:", data); // Debug log
+
+              const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+              if (!submitBtn) {
+                console.error("Submit button not found");
+                return;
+              }
+              const originalText = submitBtn.innerHTML;
+              submitBtn.disabled = true;
+              submitBtn.innerHTML = 'Sending...';
+
+              try {
+                console.log("Sending fetch request..."); // Debug log
+                const response = await fetch('http://localhost:5001/contact', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify(data),
+                });
+                console.log("Fetch response received:", response.status); // Debug log
+
+                const result = await response.json();
+
+                if (response.ok) {
+                  toast({
+                    title: "Message sent!",
+                    description: "Thanks for reaching out. I'll get back to you soon.",
+                  });
+                  form.reset();
+                } else {
+                  toast({
+                    variant: "destructive",
+                    title: "Error sending message",
+                    description: result.message || "Please try again later.",
+                  });
+                }
+              } catch (error) {
+                console.error('Error:', error);
+                toast({
+                  variant: "destructive",
+                  title: "Error",
+                  description: "Something went wrong. Please try again.",
+                });
+              } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+              }
+            }}>
               <div>
                 <label htmlFor="name" className="block text-sm font-medium mb-2">
                   Name
                 </label>
                 <Input
                   id="name"
+                  name="name"
+                  required
                   placeholder="Your name"
                   className="bg-background/50 border-border/50"
                 />
@@ -130,7 +188,9 @@ const Contact = () => {
                 </label>
                 <Input
                   id="email"
+                  name="email"
                   type="email"
+                  required
                   placeholder="your.email@example.com"
                   className="bg-background/50 border-border/50"
                 />
@@ -142,6 +202,8 @@ const Contact = () => {
                 </label>
                 <Input
                   id="subject"
+                  name="subject"
+                  required
                   placeholder="What's this about?"
                   className="bg-background/50 border-border/50"
                 />
@@ -153,6 +215,8 @@ const Contact = () => {
                 </label>
                 <Textarea
                   id="message"
+                  name="message"
+                  required
                   placeholder="Tell me about your project..."
                   rows={6}
                   className="bg-background/50 border-border/50 resize-none"
