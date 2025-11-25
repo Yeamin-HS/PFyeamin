@@ -29,6 +29,10 @@ transporter.verify((error, success) => {
 });
 
 // Routes
+app.get('/', (req, res) => {
+    res.send('Backend is running!');
+});
+
 app.post('/contact', async (req, res) => {
     const { name, email, subject, message } = req.body;
 

@@ -133,7 +133,7 @@ const Contact = () => {
 
               try {
                 console.log("Sending fetch request..."); // Debug log
-                const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+                const apiUrl = import.meta.env.VITE_API_URL || 'https://p-fyeamin.vercel.app';
                 const response = await fetch(`${apiUrl}/contact`, {
                   method: 'POST',
                   headers: {
