@@ -56,7 +56,7 @@ app.post('/contact', async (req, res) => {
     };
 
     try {
-        //console.log('Attempting to send email with options:', { ...mailOptions, text: '...', html: '...' }); // Log options (truncated content)
+        console.log('Attempting to send email with options:', { ...mailOptions, text: '...', html: '...' }); // Log options (truncated content)
         const info = await transporter.sendMail(mailOptions);
         console.log('Email sent successfully:', info.response);
         res.status(200).json({ message: 'Email sent successfully!' });
@@ -66,6 +66,12 @@ app.post('/contact', async (req, res) => {
     }
 });
 
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+// Export the Express API
+module.exports = app;
+
+// Only run the server if not in Vercel environment (Vercel handles this automatically)
+if (require.main === module) {
+    app.listen(PORT, () => {
+        console.log(`Server is running on port ${PORT}`);
+    });
+}

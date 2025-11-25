@@ -133,7 +133,8 @@ const Contact = () => {
 
               try {
                 console.log("Sending fetch request..."); // Debug log
-                const response = await fetch('http://localhost:5001/contact', {
+                const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+                const response = await fetch(`${apiUrl}/contact`, {
                   method: 'POST',
                   headers: {
                     'Content-Type': 'application/json',
