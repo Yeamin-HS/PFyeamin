@@ -67,7 +67,7 @@ const Projects = () => {
   const handleDragEnd = (_: any, info: PanInfo) => {
     setIsDragging(false);
 
-    const threshold = 100;
+    const threshold = 50; // Reduced threshold for easier swiping
     if (Math.abs(info.offset.x) > Math.abs(info.offset.y)) {
       if (info.offset.x > threshold) handlePrev();
       else if (info.offset.x < -threshold) handleNext();
@@ -76,93 +76,7 @@ const Projects = () => {
     dragX.set(0);
   };
 
-  // TOUCH
-  const touchStart = useRef<{ x: number; y: number } | null>(null);
-  const touchEnd = useRef<{ x: number; y: number } | null>(null);
 
-  const handleTouchStart = (e: React.TouchEvent) => {
-    const t = e.targetTouches[0];
-    touchStart.current = { x: t.clientX, y: t.clientY };
-    touchEnd.current = null;
-  };
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    const t = e.targetTouches[0];
-    touchEnd.current = { x: t.clientX, y: t.clientY };
-  };
-
-  const handleTouchEnd = () => {
-    if (!touchStart.current || !touchEnd.current) return;
-
-    const dx = touchStart.current.x - touchEnd.current.x;
-    const dy = touchStart.current.y - touchEnd.current.y;
-
-    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 75) {
-      dx > 0 ? handleNext() : handlePrev();
-    }
-
-    touchStart.current = null;
-    touchEnd.current = null;
-  };
-
-  // POINTER
-  const pointerStart = useRef<{ x: number; y: number } | null>(null);
-  const pointerActive = useRef(false);
-
-  const handlePointerDown = (e: React.PointerEvent) => {
-    if (e.pointerType === "mouse" && e.button !== 0) return;
-    pointerActive.current = true;
-    pointerStart.current = { x: e.clientX, y: e.clientY };
-    (e.target as Element).setPointerCapture?.(e.pointerId);
-  };
-
-  const handlePointerMove = () => { };
-
-  const handlePointerUp = (e: React.PointerEvent) => {
-    if (!pointerActive.current || !pointerStart.current) return;
-
-    const dx = pointerStart.current.x - e.clientX;
-    const dy = pointerStart.current.y - e.clientY;
-
-    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 50) {
-      dx > 0 ? handleNext() : handlePrev();
-    }
-
-    pointerActive.current = false;
-    pointerStart.current = null;
-
-    try {
-      (e.target as Element).releasePointerCapture?.(e.pointerId);
-    } catch { }
-  };
-
-  // WHEEL
-  const wheelAccum = useRef(0);
-  const wheelTimer = useRef<number | null>(null);
-
-  const handleWheel = (e: React.WheelEvent) => {
-    if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) return;
-
-    wheelAccum.current += e.deltaX;
-    const trigger = 150;
-
-    if (Math.abs(wheelAccum.current) > trigger) {
-      wheelAccum.current > 0 ? handleNext() : handlePrev();
-      wheelAccum.current = 0;
-      if (wheelTimer.current) window.clearTimeout(wheelTimer.current);
-    } else {
-      if (wheelTimer.current) window.clearTimeout(wheelTimer.current);
-      wheelTimer.current = window.setTimeout(() => {
-        wheelAccum.current = 0;
-      }, 120);
-    }
-  };
-
-  useEffect(() => {
-    return () => {
-      if (wheelTimer.current) window.clearTimeout(wheelTimer.current);
-    };
-  }, []);
 
   // KEYBOARD NAV
   useEffect(() => {
@@ -270,14 +184,6 @@ const Projects = () => {
             dragElastic={0.12}
             onDragStart={() => setIsDragging(true)}
             onDragEnd={handleDragEnd}
-            onPointerDown={handlePointerDown}
-            onPointerMove={handlePointerMove}
-            onPointerUp={handlePointerUp}
-            onPointerCancel={handlePointerUp}
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
-            onWheel={handleWheel}
           >
             <div
               className="relative w-full h-full flex items-center justify-center"
