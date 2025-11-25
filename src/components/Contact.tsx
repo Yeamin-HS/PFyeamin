@@ -34,7 +34,7 @@ const Contact = () => {
   ];
 
   return (
-    <section id="contact" ref={ref} className="py-32 relative overflow-hidden">
+    <section id="contact" ref={ref} className="py-20 md:py-32 relative overflow-hidden">
       <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-primary/10 via-transparent to-accent/10" />
       <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[120px]" />
 

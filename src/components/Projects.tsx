@@ -24,7 +24,7 @@ const Projects = () => {
   const [isDragging, setIsDragging] = useState(false);
   const dragX = useMotionValue(0);
 
-  
+
   const projects: Project[] = [
     {
       id: 1,
@@ -116,7 +116,7 @@ const Projects = () => {
     (e.target as Element).setPointerCapture?.(e.pointerId);
   };
 
-  const handlePointerMove = () => {};
+  const handlePointerMove = () => { };
 
   const handlePointerUp = (e: React.PointerEvent) => {
     if (!pointerActive.current || !pointerStart.current) return;
@@ -133,7 +133,7 @@ const Projects = () => {
 
     try {
       (e.target as Element).releasePointerCapture?.(e.pointerId);
-    } catch {}
+    } catch { }
   };
 
   // WHEEL
@@ -174,6 +174,14 @@ const Projects = () => {
     return () => window.removeEventListener("keydown", handler);
   }, []);
 
+  // Window resize handler for responsive carousel
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 0);
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   // flip
   const toggleFlip = (id: number) => {
     if (isDragging) return;
@@ -197,7 +205,9 @@ const Projects = () => {
     const isCenter = diff === 0;
 
     const angle = diff * 25;
-    const translateX = diff * 280;
+    const isMobile = windowWidth < 768;
+    const spacing = isMobile ? 40 : 280;
+    const translateX = diff * spacing;
     const translateZ = isCenter ? 100 : -100 - absDiff * 50;
     const scale = isCenter ? 1 : Math.max(0.6, 1 - absDiff * 0.18);
     const opacity = absDiff > 2 ? 0 : Math.max(0.25, 1 - absDiff * 0.28);
@@ -211,7 +221,7 @@ const Projects = () => {
   };
 
   return (
-    <section id="projects" className="py-32 relative overflow-hidden">
+    <section id="projects" className="py-20 md:py-32 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent" />
 
       <div className="mx-auto px-6 z-10">
@@ -288,7 +298,7 @@ const Projects = () => {
                     onClick={() => toggleFlip(project.id)}
                   >
                     <div
-                      className="relative w-[400px] h-[500px]"
+                      className="relative w-[90vw] max-w-[400px] h-[500px]"
                       style={{
                         transformStyle: "preserve-3d",
                         transform: isFlipped

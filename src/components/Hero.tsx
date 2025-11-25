@@ -6,13 +6,13 @@ import { useRef } from 'react';
 
 const Hero = () => {
   const sectionRef = useRef<HTMLElement>(null);
-  
+
   // Track scroll progress for smooth fade
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end start"]
   });
-  
+
   // Fade out starfield as we scroll down
   const starfieldOpacity = useTransform(scrollYProgress, [0, 0.8], [0.7, 0]);
   const contentOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
@@ -21,21 +21,21 @@ const Hero = () => {
   };
 
   return (
-    <section id="home" ref={sectionRef} className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section id="home" ref={sectionRef} className="relative min-h-screen flex items-center justify-center overflow-hidden py-20 lg:py-0">
       {/* Background effects */}
       <div className="absolute inset-0 bg-gradient-glow opacity-30" />
       <div className="absolute top-20 left-20 w-72 h-72 bg-primary/20 rounded-full blur-[120px] animate-blob" />
       <div className="absolute bottom-20 right-20 w-96 h-96 bg-accent/20 rounded-full blur-[120px] animate-blob animation-delay-2000" />
-      
+
       {/* Space Starfield Background with Scroll Fade */}
-      <motion.div 
+      <motion.div
         className="absolute inset-0"
         style={{ opacity: starfieldOpacity }}
       >
         <SpaceStarfield />
       </motion.div>
 
-      <motion.div 
+      <motion.div
         className="container mx-auto px-6 relative z-10"
         style={{ opacity: contentOpacity }}
       >
@@ -80,7 +80,7 @@ const Hero = () => {
               transition={{ delay: 0.4 }}
               className="text-xl text-muted-foreground max-w-xl"
             >
-              Crafting intelligent solutions with cutting-edge technology. 
+              Crafting intelligent solutions with cutting-edge technology.
               Passionate about building the future with AI and machine learning.
             </motion.p>
 
@@ -123,7 +123,7 @@ const Hero = () => {
                 <Mail className="w-6 h-6" />
               </a>
               <a href="https://www.facebook.com/yeaminhossainshihab/" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M22.675 0h-21.35c-.733 0-1.325.592-1.325 1.325v21.351c0 .732.592 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.466.099 2.797.143v3.24l-1.918.001c-1.504 0-1.796.715-1.796 1.763v2.312h3.59l-.467 3.622h-3.123v9.293h6.116c.732 0 1.324-.592 1.324-1.324v-21.35c0-.733-.592-1.325-1.324-1.325z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M22.675 0h-21.35c-.733 0-1.325.592-1.325 1.325v21.351c0 .732.592 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.466.099 2.797.143v3.24l-1.918.001c-1.504 0-1.796.715-1.796 1.763v2.312h3.59l-.467 3.622h-3.123v9.293h6.116c.732 0 1.324-.592 1.324-1.324v-21.35c0-.733-.592-1.325-1.324-1.325z" /></svg>
               </a>
 
 

@@ -10,57 +10,57 @@ const About = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  
+
   // Track scroll progress for smooth fade in
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start end", "start start"]
   });
-  
+
   // Fade in background as section enters viewport
   const backgroundOpacity = useTransform(scrollYProgress, [0, 0.5], [0, 1]);
 
   const mathSymbols = [
-    { symbol: 'π', x: '10%', y: '20%', delay: 0, size: 'text-6xl' },
-    { symbol: 'θ', x: '85%', y: '15%', delay: 0.5, size: 'text-5xl' },
-    { symbol: '∑', x: '15%', y: '70%', delay: 1, size: 'text-7xl' },
-    { symbol: '∂', x: '90%', y: '90%', delay: 1.5, size: 'text-5xl' },
-    { symbol: '∫ x dx', x: '10%', y: '90%', delay: 2, size: 'text-7xl' },
-    { symbol: 'eⁱπ+1=0', x: '75%', y: '40%', delay: 2.5, size: 'text-4xl' },
-    { symbol: '∞', x: '49%', y: '08%', delay: 3, size: 'text-5xl' },
- 
-   {
-  symbol: (
-    <div className="text-center leading-tight">
-      ψ(x) = 
-      <span className="inline-flex flex-col items-center justify-center mx-1 text-base align-middle">
-        <span className="border-b border-current px-1 text-4xl">d</span>
-        <span className="text-4xl">dx</span>
-      </span>
-      ln(Γ(x))
-    </div>
-  ),
-  x: '45%',
-  y: '90%',
-  delay: 1.8,
-  size: 'text-5xl',
-},
+    { symbol: 'π', x: '10%', y: '20%', delay: 0, size: 'text-4xl md:text-6xl' },
+    { symbol: 'θ', x: '85%', y: '15%', delay: 0.5, size: 'text-3xl md:text-5xl' },
+    { symbol: '∑', x: '15%', y: '70%', delay: 1, size: 'text-5xl md:text-7xl' },
+    { symbol: '∂', x: '90%', y: '90%', delay: 1.5, size: 'text-3xl md:text-5xl' },
+    { symbol: '∫ x dx', x: '10%', y: '90%', delay: 2, size: 'text-5xl md:text-7xl' },
+    { symbol: 'eⁱπ+1=0', x: '75%', y: '40%', delay: 2.5, size: 'text-2xl md:text-4xl' },
+    { symbol: '∞', x: '49%', y: '08%', delay: 3, size: 'text-3xl md:text-5xl' },
 
     {
-  symbol: (
-    <div className="text-center leading-tight">
-      p(x) ∝ x⁽ᵅ⁻¹⁾ e⁽⁻ˣ/ᵝ⁾
-      <div className="flex flex-col items-center justify-center text-xs mt-[-0.3rem]">
-        <span className="border-b border-current w-10 text-base flex items-center justify-center"></span>
-        <span className="text-lg">Γ(ᵅ)</span>
-      </div>
-    </div>
-  ),
-  x: '83%',
-  y: '55%',
-  delay: 3.2,
-  size: 'text-3xl',
-},
+      symbol: (
+        <div className="text-center leading-tight">
+          ψ(x) =
+          <span className="inline-flex flex-col items-center justify-center mx-1 text-base align-middle">
+            <span className="border-b border-current px-1 text-2xl md:text-4xl">d</span>
+            <span className="text-2xl md:text-4xl">dx</span>
+          </span>
+          ln(Γ(x))
+        </div>
+      ),
+      x: '45%',
+      y: '90%',
+      delay: 1.8,
+      size: 'text-3xl md:text-5xl',
+    },
+
+    {
+      symbol: (
+        <div className="text-center leading-tight">
+          p(x) ∝ x⁽ᵅ⁻¹⁾ e⁽⁻ˣ/ᵝ⁾
+          <div className="flex flex-col items-center justify-center text-xs mt-[-0.3rem]">
+            <span className="border-b border-current w-10 text-base flex items-center justify-center"></span>
+            <span className="text-lg">Γ(ᵅ)</span>
+          </div>
+        </div>
+      ),
+      x: '83%',
+      y: '55%',
+      delay: 3.2,
+      size: 'text-xl md:text-3xl',
+    },
 
   ];
 
@@ -77,17 +77,17 @@ const About = () => {
   }, []);
 
   return (
-    <section id="about" ref={sectionRef} className="py-32 relative overflow-hidden min-h-screen flex items-center">
+    <section id="about" ref={sectionRef} className="py-20 md:py-32 relative overflow-hidden min-h-screen flex items-center">
       {/* Cosmic Background with Scroll Fade */}
-      <motion.div 
+      <motion.div
         className="absolute inset-0 bg-gradient-to-br from-background via-primary/5 to-accent/10"
         style={{ opacity: backgroundOpacity }}
       />
-      <motion.div 
+      <motion.div
         className="absolute inset-0 bg-gradient-radial from-transparent via-primary/5 to-background opacity-50"
         style={{ opacity: backgroundOpacity }}
       />
-      
+
       {/* Floating Math Symbols with Scroll Fade */}
       {mathSymbols.map((item, index) => (
         <motion.div
@@ -142,24 +142,24 @@ const About = () => {
             <div className="relative w-full aspect-square max-w-md mx-auto">
               {/* Glow Effect */}
               <div className="absolute inset-0 bg-gradient-to-br from-accent/30 via-primary/30 to-purple-500/30 rounded-2xl blur-2xl group-hover:blur-3xl transition-all duration-500" />
-              
+
               {/* Image Container */}
               <motion.div
                 className="relative glass-card rounded-2xl overflow-hidden border-2 border-accent/20 flex items-center justify-center bg-gradient-to-br from-primary/20 to-accent/20"
                 whileHover={{ scale: 1.02, rotateZ: 1 }}
                 transition={{ duration: 0.3 }}
               >
-               <div className="w-full h-full flex items-center justify-center object-center overflow-hidden rounded-2xl">
-  {/* <User className="absolute w-10 h-10 text-accent/40" strokeWidth={3} /> */}
-  
-  <img
-    src={profileImg}
-    alt="Yeamin HS"
-    className="w-full h-full object-contain object-center rounded-2xl"
-  />
-</div>
+                <div className="w-full h-full flex items-center justify-center object-center overflow-hidden rounded-2xl">
+                  {/* <User className="absolute w-10 h-10 text-accent/40" strokeWidth={3} /> */}
+
+                  <img
+                    src={profileImg}
+                    alt="Yeamin HS"
+                    className="w-full h-full object-contain object-center rounded-2xl"
+                  />
+                </div>
               </motion.div>
-              
+
 
               {/* Floating Math Symbol on Portrait */}
               <motion.div
@@ -195,27 +195,27 @@ const About = () => {
             >
               Yeamin HS
             </motion.h3>
-            
+
             <motion.div
               className="glass-card p-6 rounded-xl space-y-4"
               whileHover={{ scale: 1.02, boxShadow: '0 0 40px hsl(var(--accent) / 0.3)' }}
               transition={{ duration: 0.3 }}
             >
               <p className="text-muted-foreground leading-relaxed">
-                I'm a developer who sees the world through the lens of algorithms and equations. 
+                I'm a developer who sees the world through the lens of algorithms and equations.
                 My passion lies at the intersection of <span className="text-accent font-semibold">software engineering</span> and{' '}
                 <span className="text-primary font-semibold">mathematical elegance</span>.
               </p>
-              
+
               <p className="text-muted-foreground leading-relaxed">
-                From building intelligent systems powered by machine learning to crafting beautiful 
-                user interfaces, I believe every great solution begins with understanding the underlying 
-                mathematics. Whether it's optimizing algorithms or designing neural networks, 
+                From building intelligent systems powered by machine learning to crafting beautiful
+                user interfaces, I believe every great solution begins with understanding the underlying
+                mathematics. Whether it's optimizing algorithms or designing neural networks,
                 I approach problems with both creative intuition and analytical rigor.
               </p>
 
               <p className="text-muted-foreground leading-relaxed">
-                When I'm not coding, you'll find me exploring mathematical proofs, 
+                When I'm not coding, you'll find me exploring mathematical proofs,
                 experimenting with AI models, or pondering the beauty of{' '}
                 <span className="text-accent">e<sup>iπ</sup> + 1 = 0</span>.
               </p>
@@ -230,7 +230,7 @@ const About = () => {
                 <div className="text-3xl font-bold text-gradient">AI/ML</div>
                 <div className="text-sm text-muted-foreground mt-1">Deep Learning Expert</div>
               </motion.div>
-              
+
               <motion.div
                 className="glass-card p-4 rounded-lg text-center"
                 whileHover={{ scale: 1.05, boxShadow: '0 0 30px hsl(var(--accent) / 0.3)' }}
