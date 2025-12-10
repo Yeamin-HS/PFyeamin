@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import CustomCursor from '@/components/CustomCursor';
-import ChatBotIcon from '@/components/ChatBotIcon';
+import ChatBot from '@/components/ChatBot';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import About from '@/components/About';
@@ -34,9 +34,9 @@ const Index = () => {
   return (
     <div className="relative">
       <CustomCursor />
-      <ChatBotIcon />
+      <ChatBot />
       <Navbar />
-      
+
       <main>
         <Hero />
         <About />
@@ -44,7 +44,7 @@ const Index = () => {
         <Projects />
         <Contact />
       </main>
-      
+
       <Footer />
     </div>
   );

@@ -7,6 +7,7 @@ import { Button } from "./ui/button";
 import medihelpthumb from "./assets/medihelpthumb.png";
 import ocabracu from "./assets/ocabracu.png";
 import desmosgraphthumb from "./assets/desmos-graph.png";
+import cgpacounter from "./assets/cgpacounter.png";
 
 interface Project {
   id: number;
@@ -55,6 +56,16 @@ const Projects = () => {
       tags: ["Node.js", "Express.js", "Tailwind", "React"],
       demoLink: "#",
       githubLink: "#",
+    },
+    {
+      id: 4,
+      title: "CGPA Calculator by Django",
+      thumbnail: cgpacounter,
+      description:
+        "A little approcah to make a simple cgpa web app with the DJANGO Framework.",
+      tags: ["Python", "Django", "HTML", "CSS"],
+      demoLink: "https://cgpa-calculator-1-gxt5.onrender.com/",
+      githubLink: "https://github.com/Yeamin-HS/CGPA-Calculator",
     },
   ];
 
