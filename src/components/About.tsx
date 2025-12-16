@@ -3,7 +3,7 @@ import { useInView } from 'framer-motion';
 import { useRef, useEffect, useState } from 'react';
 import { User } from 'lucide-react';
 
-import profileImg from './assets/profile.jpg';
+import profileImg from './assets/gemimg.png';
 
 const About = () => {
   const ref = useRef(null);
@@ -193,7 +193,7 @@ const About = () => {
               className="text-3xl font-bold font-display"
               whileHover={{ scale: 1.02 }}
             >
-              Yeamin HS
+              Yeamin Hossain Shihab
             </motion.h3>
 
             <motion.div
