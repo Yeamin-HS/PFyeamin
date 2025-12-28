@@ -29,8 +29,29 @@ const ChatBot = () => {
         }
     }, [messages, isOpen]);
 
+    // Background Pre-loading
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            if (!isModelReady) {
+                console.log("Starting background model pre-load...");
+                initModel((progress) => {
+                    // Update progress state (e.g. "Loading: 45%")
+                    setLoadingProgress(progress);
+                    if (progress.includes("Ready")) {
+                        setIsModelReady(true);
+                    }
+                }).catch(err => {
+                    console.error("Background load suppressed error:", err);
+                });
+            }
+        }, 1000); // Start 1 second after page load (faster start)
+
+        return () => clearTimeout(timer);
+    }, []); // Run once on mount
+
     const handleOpen = () => {
         setIsOpen(true);
+        // If not ready yet, initModel will just continue from where it is (it handles singleton check)
         if (!isModelReady) {
             initModel((progress) => {
                 setLoadingProgress(progress);
@@ -80,8 +101,11 @@ const ChatBot = () => {
                         initial={{ scale: 0, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
                         exit={{ scale: 0, opacity: 0 }}
-                        className="fixed bottom-8 right-8 z-50"
+                        className="fixed bottom-8 right-8 z-50 flex flex-col items-center gap-2"
                     >
+                        <span className="bg-background/80 backdrop-blur-md px-3 py-1 rounded-full text-xs font-medium shadow-lg animate-bounce border border-border/50">
+                            Ask me anything
+                        </span>
                         <Button
                             size="icon"
                             className="w-16 h-16 rounded-full bg-gradient-primary shadow-2xl hover:scale-110 transition-transform duration-300"

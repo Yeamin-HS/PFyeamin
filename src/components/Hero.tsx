@@ -1,8 +1,10 @@
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, useAnimation } from 'framer-motion';
 import { ArrowDown, Github, Linkedin, Mail } from 'lucide-react';
 import { Button } from './ui/button';
 import SpaceStarfield from './SpaceStarfield';
 import { useRef } from 'react';
+import HeroVideo from './assets/ragebet.mp4';
+import ResumePDF from './assets/YeaminHossainShiab_Resume.pdf';
 
 const Hero = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -16,6 +18,7 @@ const Hero = () => {
   // Fade out starfield as we scroll down
   const starfieldOpacity = useTransform(scrollYProgress, [0, 0.8], [0.7, 0]);
   const contentOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const videoControls = useAnimation(); // Controls for video transition
   const scrollToSection = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -39,12 +42,12 @@ const Hero = () => {
         className="container mx-auto px-6 relative z-10"
         style={{ opacity: contentOpacity }}
       >
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
-            className="space-y-6"
+            className="space-y-6 text-center lg:text-left"
           >
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -88,15 +91,20 @@ const Hero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
-              className="flex flex-wrap gap-4"
+              className="flex flex-wrap gap-4 justify-center lg:justify-start"
             >
-              <Button
-                size="lg"
-                onClick={() => scrollToSection('projects')}
-                className="bg-gradient-primary glow-effect hover:scale-105 transition-transform"
+              <a
+                href={ResumePDF}
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                View My Work
-              </Button>
+                <Button
+                  size="lg"
+                  className="bg-gradient-primary glow-effect hover:scale-105 transition-transform w-full sm:w-auto"
+                >
+                  My Resume
+                </Button>
+              </a>
               <Button
                 size="lg"
                 variant="outline"
@@ -111,7 +119,7 @@ const Hero = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6 }}
-              className="flex gap-4 pt-4"
+              className="flex gap-4 pt-4 justify-center lg:justify-start"
             >
               <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">
                 <Github className="w-6 h-6" />
@@ -134,9 +142,34 @@ const Hero = () => {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.4, duration: 0.8 }}
-            className="relative lg:h-[600px] hidden lg:block"
+            className="relative h-[300px] w-full lg:h-[600px] mt-8 lg:mt-0"
           >
-            {/* Additional decorative elements can go here */}
+            <motion.video
+              animate={videoControls}
+              autoPlay
+              muted
+              playsInline
+              onEnded={async (e) => {
+                const video = e.currentTarget;
+                // Fade out to hide the jump cut
+                await videoControls.start({ opacity: 0, transition: { duration: 3 } });
+
+                video.pause();
+                video.currentTime = 0.1; // Jump to static frame while invisible
+
+                // Fade back in smoothly
+                await videoControls.start({ opacity: 1, transition: { duration: 1.9 } });
+              }}
+              className="w-full h-full object-cover rounded-2xl shadow-2xl mix-blend-screen"
+              style={{
+                filter: 'contrast(1.4) brightness(0.6) saturate(1.2)', // Increased contrast/decreased brightness to crush blacks
+                maskImage: 'radial-gradient(closest-side, black 40%, transparent 100%)', // Tighter mask to hide edges
+                WebkitMaskImage: 'radial-gradient(closest-side, black 40%, transparent 100%)'
+              }}
+            >
+              <source src={HeroVideo} type="video/mp4" />
+              Your browser does not support the video tag.
+            </motion.video>
           </motion.div>
         </div>
       </motion.div>
