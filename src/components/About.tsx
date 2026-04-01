@@ -193,7 +193,7 @@ const About = () => {
               className="text-3xl font-bold font-display"
               whileHover={{ scale: 1.02 }}
             >
-              Yeamin Hossain Shihab
+              Yeamin Hossain bhai
             </motion.h3>
 
             <motion.div
@@ -233,7 +233,7 @@ const About = () => {
 
               <motion.div
                 className="glass-card p-4 rounded-lg text-center"
-                whileHover={{ scale: 1.05, boxShadow: '0 0 30px hsl(var(--accent) / 0.3)' }}
+                whileHover={{ scale: 1.10, boxShadow: '0 0 30px hsl(var(--accent) / 0.3)' }}
               >
                 <div className="text-3xl font-bold text-gradient">Full-Stack</div>
                 <div className="text-sm text-muted-foreground mt-1">Modern Web Dev</div>
