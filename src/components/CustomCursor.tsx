@@ -20,6 +20,7 @@ const CustomCursor = () => {
     };
 
     window.addEventListener('mousemove', handleMouseMove);
+  
     window.addEventListener('mouseover', handleMouseOver);
 
     return () => {

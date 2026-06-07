@@ -140,27 +140,9 @@ const ChatBot = () => {
                         {/* Content */}
                         <div className="flex-1 overflow-hidden relative flex flex-col">
                             {!isModelReady ? (
-                                <div className="flex-1 flex flex-col items-center justify-center p-8 text-center space-y-4">
+                                <div className="flex-1 flex flex-col items-center justify-center p-8 text-center space-y-3">
                                     <Loader2 className="w-8 h-8 animate-spin text-primary" />
                                     <p className="text-sm text-muted-foreground animate-pulse">{loadingProgress || "Initializing..."}</p>
-                                    <p className="text-xs text-muted-foreground/50">Downloading ~600MB model (once only)</p>
-
-                                    {/* Retry / Clear Cache Button */}
-                                    <div className="pt-4">
-                                        <Button
-                                            variant="outline"
-                                            size="sm"
-                                            onClick={async () => {
-                                                setLoadingProgress("Clearing cache...");
-                                                const { clearCache } = await import('@/lib/ai/engine');
-                                                await clearCache();
-                                                window.location.reload();
-                                            }}
-                                            className="text-xs"
-                                        >
-                                            Stuck? Click to Reset & Retry
-                                        </Button>
-                                    </div>
                                 </div>
                             ) : (
                                 <div

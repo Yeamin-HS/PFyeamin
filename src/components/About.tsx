@@ -193,7 +193,7 @@ const About = () => {
               className="text-3xl font-bold font-display"
               whileHover={{ scale: 1.02 }}
             >
-              Yeamin Hossain bhai
+              Yeamin Hossain Shihab
             </motion.h3>
 
             <motion.div
