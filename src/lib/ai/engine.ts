@@ -74,7 +74,7 @@ export const getAnswer = async (
 ): Promise<string> => {
     if (!isReady) throw new Error("Engine not initialized");
 
-    const context = retrieveContext(question);
+    const context = portfolioKnowledge;
 
     // ---------- Fallback (no API key) ----------
     if (!GEMINI_API_KEY) {
@@ -167,14 +167,14 @@ export const clearCache = async () => {
 // ============================================================
 
 function buildSystemPrompt(context: string): string {
-    return `You are a friendly, concise AI assistant embedded in Yeamin HS's portfolio website.
-Your job is to answer visitor questions about Yeamin — his skills, projects, education, experience, and contact info.
+    return `You are a friendly, intelligent AI assistant embedded in Yeamin HS's portfolio website.
+Your main job is to answer visitor questions about Yeamin — his skills, projects, education, experience, interests, location, contact info, and background.
 
 Rules:
-- Use ONLY the context below to answer. Do NOT make up facts.
-- If the answer is not in the context, say you don't know and suggest the visitor contact Yeamin directly.
-- Keep answers short (2-4 sentences max) and friendly.
-- Use markdown formatting when helpful (bold, lists).
+- For questions about Yeamin, prioritize using the context provided below. If the information is not in the context but you know it generally, answer accurately, or suggest contacting Yeamin directly.
+- If the visitor asks general or random questions (e.g., programming help, general knowledge, math, greeting, trivia), feel free to answer them directly using your pre-trained knowledge in a friendly, helpful manner.
+- Keep answers relatively concise and engaging.
+- Use markdown formatting when helpful.
 
 Context:
 ${context}`;
@@ -191,19 +191,37 @@ async function fallbackAnswer(
 
     if (q.includes("skill") || q.includes("tech") || q.includes("stack")) {
         answer =
-            "Yeamin's key skills include AI/ML (Deep Learning, TensorFlow.js, NLP, Computer Vision) and Full-Stack Development (React, Node.js, Express.js, TypeScript, Tailwind CSS). He also has strong mathematical foundations in algorithms and calculus.";
+            "Yeamin's key skills include AI/ML (Deep Learning, TensorFlow.js, NLP, Computer Vision) and Full-Stack Development (React, Node.js, Express.js, TypeScript, Tailwind CSS). He also has experience in cloud & DevOps (Docker, CI/CD), embedded hardware (Arduino, Raspberry Pi), and mathematical tools like Mathematica.";
+    } else if (q.includes("experience") || q.includes("work") || q.includes("job") || q.includes("intern") || q.includes("teaching") || q.includes("assistant")) {
+        answer =
+            "Yeamin worked as an Intern at the IT Division of Prime Bank (March–May 2026), building an autonomous SQL querying AI agent, a Cursor/Copilot-like Visual Studio IDE extension, and a JetBrains coding assistant plugin (OLLAMA-JET).\n\nHe also served as an Undergraduate Teaching Assistant at BRAC University (Jan 2024–May 2025) for Statistics, Calculus, Discrete Mathematics, and Physics.";
     } else if (q.includes("project")) {
         answer =
-            "Yeamin has built several impressive projects:\n\n1. AI-Powered Medicine Help Platform — integrating Gemini 1.5 and custom NLP for disease prediction.\n2. Club Management & Recruitment System — with custom auth and real-time room scheduling.\n3. DESMOS Graphing Designing — artistic icons using mathematical functions.";
-    } else if (q.includes("education") || q.includes("university") || q.includes("study")) {
+            "Yeamin's notable projects include:\n\n1. **Smart Medicine Assistant** — integrating Gemini 1.5 and custom NLP for disease prediction.\n2. **University Club Monitoring System** — with conflict-free scheduling and custom multi-role dashboard.\n3. **Stress Level Classification** — a machine learning project using Random Forest to classify stress from physiological data.\n4. **CGPA Calculator** — a Django and Tailwind-based interactive web application.";
+    } else if (q.includes("cgpa") || q.includes("gpa") || q.includes("grade") || q.includes("result")) {
         answer =
-            "Yeamin is pursuing a BSc in Computer Science & Engineering at BRAC University, Dhaka (2021-2025) with a CGPA of 3.86. He completed his HSC at Metropolitan School & College (2018-2020).";
+            "Yeamin obtained a CGPA of 3.86/4.00 for his BSc in Computer Science & Engineering from BRAC University. For his Higher Secondary Certificate (HSC), he achieved a GPA of 4.67/5.00, and for his Secondary School Certificate (SSC), he scored a GPA of 4.56/5.00.";
+    } else if (q.includes("interest") || q.includes("hobby") || q.includes("hobbies") || q.includes("passion") || q.includes("like") || q.includes("love")) {
+        answer =
+            "Yeamin's primary interests are in Deep Learning, Computer Vision, Natural Language Processing (NLP), Full-Stack Web Development, and Mathematics (Calculus & Algorithms). He also enjoys robotics and creating mathematical art using Desmos.";
+    } else if (q.includes("live") || q.includes("resident") || q.includes("home") || q.includes("city") || q.includes("location") || q.includes("address") || q.includes("from")) {
+        answer =
+            "Yeamin lives in Badda, Dhaka, Bangladesh.";
+    } else if (q.includes("education") || q.includes("university") || q.includes("study") || q.includes("school") || q.includes("college")) {
+        answer =
+            "Yeamin graduated with a BSc in Computer Science & Engineering from BRAC University, Dhaka (2021-2025) with a CGPA of 3.86. Prior to university, he completed his HSC at Metropolitan School & College (GPA: 4.67) and SSC at Shyampur GOVT Model School & College (GPA: 4.56).";
+    } else if (q.includes("referee") || q.includes("reference")) {
+        answer =
+            "Yeamin's referees are:\n\n1. **Dewan Ziaul Karim** (Senior Lecturer, BRAC University) — ziaul.karim@bracu.ac.bd\n2. **Afia Mubassira Islam** (Graduate Research Associate, Ohio State University / BRAC University Lecturer) — afia.islam@bracu.ac.bd";
+    } else if (q.includes("extracurricular") || q.includes("club") || q.includes("robotics")) {
+        answer =
+            "Yeamin has been actively involved in extracurricular activities at BRAC University:\n- **Director of Human Resources** at BRAC University Computer Club (Oct 2023 – Dec 2024)\n- **Senior Executive** at BRAC University Robotics Club (Feb 2022 – Feb 2023)\n- **Organizing Committee Member** for INTRAHACTIVE 1.0 (Nov 2024)";
     } else if (q.includes("contact") || q.includes("email") || q.includes("phone") || q.includes("reach")) {
         answer =
-            "You can reach Yeamin at:\n- Email: yeaminhs11@gmail.com\n- Phone: 01521331128\n- Location: Badda, Dhaka, Bangladesh";
+            "You can reach Yeamin at:\n- **Email:** yeaminhs11@gmail.com\n- **Phone:** +8801521331128\n- **Location:** Badda, Dhaka, Bangladesh\n- **LinkedIn:** linkedin.com/in/yeaminhs";
     } else if (q.includes("thesis") || q.includes("publication") || q.includes("research") || q.includes("paper")) {
         answer =
-            'Yeamin\'s thesis is titled "Leveraging Deep Learning Techniques for Pothole Detection" (Second Author). He also published a paper: "Lightweight Deep Learning Framework for Pothole Detection and Classification Using CNNs and YOLO Models" at the 28th ICCIT 2025.';
+            'Yeamin\'s thesis is titled "Leveraging Deep Learning Techniques for Pothole Detection" (Second Author, supervised by Dewan Ziaul Karim). He also co-authored the conference paper "Lightweight Deep Learning Framework for Pothole Detection and Classification Using CNNs and YOLO Models" published in the 28th ICCIT 2025 (DOI: 10.1109/ICCIT68739.2025.11491787).';
     } else if (q.includes("who") || q.includes("about") || q.includes("yourself") || q.includes("yeamin")) {
         answer =
             "Yeamin HS is a Software Engineer & AI/ML Enthusiast based in Dhaka, Bangladesh. He's passionate about building intelligent solutions with cutting-edge AI and believes every great solution begins with understanding the underlying mathematics.";
@@ -215,7 +233,7 @@ async function fallbackAnswer(
             "You're welcome! Feel free to come back anytime. If you'd like to get in touch with Yeamin, reach out at yeaminhs11@gmail.com. Have a great day! 😊";
     } else {
         answer =
-            "I appreciate your question! I don't have specific information about that in my knowledge base. Feel free to reach out to Yeamin directly at yeaminhs11@gmail.com for more details!";
+            "I'm currently running in offline fallback mode without an active Gemini API key, so I can only answer specific questions about Yeamin (like skills, projects, CGPA, interests, etc.). Please define VITE_GEMINI_API_KEY in your environment to ask general and random questions!";
     }
 
     // Simulate streaming effect for a natural feel
