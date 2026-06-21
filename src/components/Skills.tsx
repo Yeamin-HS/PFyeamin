@@ -2,6 +2,8 @@ import React, { useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useInView } from "framer-motion";
 import GitHubCalendar from "react-github-calendar";
+import { BookOpen, FileText, User, Award } from "lucide-react";
+import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 
 // React Icons
 import {
@@ -207,6 +209,113 @@ const Skills = () => {
     />
   </div>
 </motion.div>
+
+        {/* Vertical spacer of 2cm */}
+        <div aria-hidden style={{ height: "2cm", width: "100%" }} />
+
+        {/* Publications Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="max-w-5xl mx-auto"
+        >
+          <h3 className="text-4xl font-bold mb-8 text-gradient text-center">
+            Publications
+          </h3>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* Card 1: Research Paper */}
+            <motion.div
+              whileHover={{ y: -8, scale: 1.02 }}
+              transition={{ type: "spring", stiffness: 200 }}
+              className="glass-card p-6 rounded-2xl shadow-lg border border-border/50 relative overflow-hidden flex flex-col justify-between"
+              style={{
+                boxShadow: "0 0 20px rgba(0, 200, 255, 0.15)",
+              }}
+            >
+              <div>
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="p-3 bg-accent/10 text-accent rounded-xl">
+                    <FileText className="w-6 h-6" />
+                  </div>
+                  <span className="text-xs font-semibold px-2.5 py-1 bg-accent/10 text-accent rounded-full">
+                    Conference Paper
+                  </span>
+                </div>
+                <h4 className="text-xl font-bold mb-3 text-foreground line-clamp-2">
+                  Lightweight Deep Learning Framework for Pothole Detection and Classification Using CNNs and YOLO Models
+                </h4>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Proposed a highly efficient and lightweight deep learning approach to automate pothole detection and classification, optimize computational overhead, and support real-time application in automated road health monitoring.
+                </p>
+              </div>
+              <div className="space-y-2 mt-4 pt-4 border-t border-border/40">
+                <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                  <User className="w-4 h-4 text-accent" />
+                  <span>Role: <strong className="text-foreground">Second Author</strong></span>
+                </div>
+                <div className="flex items-center gap-2 text-xs text-muted-foreground flex-wrap">
+                  <BookOpen className="w-4 h-4 text-accent flex-shrink-0" /> 
+                  <span className="leading-relaxed">Published in: </span>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <a
+                        href="https://ieeexplore.ieee.org/abstract/document/11491787"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-accent hover:underline font-bold transition-all"
+                      >
+                        28th International Conference on Computer and Information Technology (28th ICCIT 2025)
+                      </a>
+                    </TooltipTrigger>
+                    <TooltipContent className="bg-popover text-popover-foreground border border-border shadow-lg">
+                      <p className="text-xs">Go to link</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Card 2: Thesis */}
+            <motion.div
+              whileHover={{ y: -8, scale: 1.02 }}
+              transition={{ type: "spring", stiffness: 200 }}
+              className="glass-card p-6 rounded-2xl shadow-lg border border-border/50 relative overflow-hidden flex flex-col justify-between"
+              style={{
+                boxShadow: "0 0 20px rgba(0, 200, 255, 0.15)",
+              }}
+            >
+              <div>
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="p-3 bg-indigo-500/10 text-indigo-400 rounded-xl">
+                    <Award className="w-6 h-6" />
+                  </div>
+                  <span className="text-xs font-semibold px-2.5 py-1 bg-indigo-500/10 text-indigo-400 rounded-full">
+                    Undergraduate Thesis
+                  </span>
+                </div>
+                <h4 className="text-xl font-bold mb-3 text-foreground line-clamp-2">
+                  Leveraging Deep Learning Techniques for Pothole Detection
+                </h4>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Focused on exploring and adapting state-of-the-art neural network architectures for real-time pothole detection, comparing performance, speed, and accuracy benchmarks.
+                </p>
+              </div>
+              <div className="space-y-2 mt-4 pt-4 border-t border-border/40">
+                <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                  <User className="w-4 h-4 text-indigo-400" />
+                  <span>Role: <strong className="text-foreground">Second Author</strong></span>
+                </div>
+                <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                  <BookOpen className="w-4 h-4 text-indigo-400" />
+                  <span>Institution: <strong className="text-foreground">BRAC University</strong></span>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </motion.div>
 
 
       </div>
