@@ -30,7 +30,7 @@ const cardVariants = {
     opacity: 1,
     y: 0,
     scale: 1,
-    transition: { delay: i * 0.05, type: "spring", stiffness: 120 },
+    transition: { delay: i * 0.05, type: "spring" as const, stiffness: 120 },
   }),
 };
 

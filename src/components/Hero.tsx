@@ -4,7 +4,7 @@ import { Button } from './ui/button';
 import SpaceStarfield from './SpaceStarfield';
 import { useRef } from 'react';
 import HeroVideo from './assets/ragebet.mp4';
-import ResumePDF from './assets/YeaminHossainShiab_Resume.pdf';
+import ResumePDF from './assets/YeaminHossainShihab_CV_.pdf';
 
 const Hero = () => {
   const sectionRef = useRef<HTMLElement>(null);
